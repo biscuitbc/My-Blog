@@ -1,0 +1,132 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import ProfileCard from "../components/ProfileCard.astro";
+import TableOfContents from "../components/TableOfContents.astro";
+import Footer from "../components/Footer.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Icon from "../components/Icon.astro";
+import { profile } from "../config/profile";
+import { education } from "../data/education";
+import { honors } from "../data/honors";
+import { navigation } from "../data/navigation";
+
+const navItems = navigation.filter((item) => item.enabled);
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const assetUrl = (source: string) => /^https?:\/\//.test(source)
+  ? source
+  : `${base}${source.replace(/^\//, "")}`;
+const [bioBeforeUniversity, bioAfterUniversity = ""] = profile.university
+  ? profile.bio.split(profile.university)
+  : [profile.bio, ""];
+const [bioBeforeMajor, bioAfterMajor = ""] = profile.major
+  ? bioAfterUniversity.split(profile.major)
+  : [bioAfterUniversity, ""];
+const [firstMajor, secondMajor = ""] = profile.major.split(" and ");
+---
+
+<BaseLayout>
+  <Header items={navItems} />
+
+  <div class="page-shell page-shell-simple">
+    <aside class="profile-column profile-stack">
+      <ProfileCard />
+      <TableOfContents items={navItems} />
+    </aside>
+
+    <main class="main-content floating-content-panel" id="main-content">
+      {profile.bio && (
+        <section id="about" class="profile-introduction reveal" aria-label="Introduction">
+          <h2>About</h2>
+          <p>
+            {bioBeforeUniversity}
+            {profile.university && (
+              profile.universityUrl
+                ? <a href={profile.universityUrl} target="_blank" rel="noopener noreferrer">{profile.university}</a>
+                : profile.university
+            )}
+            {bioBeforeMajor}
+            {firstMajor && <strong class="bio-major">{firstMajor}</strong>}
+            {secondMajor && <>{" and "}<strong class="bio-major">{secondMajor}</strong></>}
+            {bioAfterMajor}
+          </p>
+          {profile.interestHighlight && (
+            <p class="interest-line">
+              My interests include <mark>{profile.interestHighlight}.</mark>
+            </p>
+          )}
+        </section>
+      )}
+
+      <section id="education" class="content-section reveal">
+        <SectionHeading id="education" title="Education" />
+
+        <div class="education-list">
+          {education.map((item) => (
+            <article class="education-block">
+              <div class="education-content">
+                {item.logo
+                  ? <div class="education-logo-wrap"><img class="education-logo" src={assetUrl(item.logo)} alt="" width="112" height="112" loading="lazy" /></div>
+                  : <span class="education-logo-fallback">{item.institution.trim().charAt(0).toUpperCase()}</span>}
+                <div class="education-copy">
+                  <div class="education-title-row">
+                    <h3>{item.institution}</h3>
+                    {(item.startDate || item.endDate) && (
+                      <time>{[item.startDate, item.endDate].filter(Boolean).join(" — ")}</time>
+                    )}
+                  </div>
+                  {item.location && <p>{item.location}</p>}
+
+                  {item.programs?.length ? (
+                    <div class="education-programs">
+                      {item.programs.map((program) => (
+                        <p>
+                          <strong>{program.degree}</strong>
+                          {program.school && <small>{program.school}</small>}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    (item.degree || item.field) && (
+                      <p class="education-degree">{[item.degree, item.field].filter(Boolean).join(" · ")}</p>
+                    )
+                  )}
+
+                  {item.description && <p class="card-description">{item.description}</p>}
+                  {item.links?.filter((link) => link.url).length && (
+                    <div class="card-actions">
+                      {item.links.filter((link) => link.url).map((link) => (
+                        <a href={link.url} target="_blank" rel="noopener noreferrer">
+                          {link.label}<Icon name="external" size={14} />
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="honors" class="content-section reveal">
+        <SectionHeading id="honors" title="Honors & Awards" />
+
+        <div class="honor-text-list">
+          {honors.map((item) => (
+            <article class="honor-entry">
+              <h3>
+                {item.link
+                  ? <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title}<Icon name="external" size={14} /></a>
+                  : item.title}
+              </h3>
+              {item.description && <p><mark>{item.description}</mark></p>}
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  </div>
+</BaseLayout>

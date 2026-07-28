@@ -1,0 +1,37 @@
+---
+import type { ProjectItem } from "../data/projects";
+import Icon from "./Icon.astro";
+
+interface Props { project: ProjectItem }
+const { project } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const imageUrl = project.image && (/^https?:\/\//.test(project.image) ? project.image : `${base}${project.image.replace(/^\//, "")}`);
+const actions = [
+  { label: "GitHub", url: project.github, icon: "github" },
+  { label: "在线预览", url: project.demo, icon: "external" },
+  { label: "相关文章", url: project.article, icon: "book" },
+].filter((item) => item.url);
+---
+
+<article class:list={["project-card", "reveal", { featured: project.featured }]}>
+  {project.image ? (
+    <div class="project-image">
+      <img src={imageUrl} alt="" loading="lazy" decoding="async" />
+    </div>
+  ) : (
+    <div class="project-visual" aria-hidden="true"><Icon name="code" size={32} /></div>
+  )}
+  <div class="project-body">
+    <div class="project-heading">
+      <h3>{project.title}</h3>
+      {project.featured && <span>Featured</span>}
+    </div>
+    {project.technologies?.length && <div class="tag-list">{project.technologies.map((item) => <span>{item}</span>)}</div>}
+    <p>{project.description}</p>
+    {actions.length > 0 && (
+      <div class="card-actions">
+        {actions.map((action) => <a href={action.url} target="_blank" rel="noopener noreferrer"><Icon name={action.icon} size={16} />{action.label}</a>)}
+      </div>
+    )}
+  </div>
+</article>

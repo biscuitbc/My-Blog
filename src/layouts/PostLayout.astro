@@ -1,0 +1,24 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+interface Props {
+  title: string;
+  description?: string;
+  publishedAt?: Date;
+  tags?: string[];
+}
+const { title, description, publishedAt, tags = [] } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+<BaseLayout title={title} description={description}>
+  <main class="post-shell" id="main-content">
+    <a class="post-back" href={base}>← 返回首页</a>
+    <article class="post-article">
+      <header>
+        <h1>{title}</h1>
+        {publishedAt && <time datetime={publishedAt.toISOString()}>{publishedAt.toLocaleDateString("zh-CN")}</time>}
+        {tags.length > 0 && <div class="tag-list">{tags.map((tag) => <span>{tag}</span>)}</div>}
+      </header>
+      <div class="prose"><slot /></div>
+    </article>
+  </main>
+</BaseLayout>

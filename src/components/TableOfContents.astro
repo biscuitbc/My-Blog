@@ -1,0 +1,11 @@
+---
+import type { NavigationItem } from "../data/navigation";
+interface Props { items: NavigationItem[] }
+const { items } = Astro.props;
+---
+
+<aside class="toc-card" aria-label="On this page">
+  <nav>
+    {items.map((item) => <a href={item.href} data-toc-link><span></span>{item.label}</a>)}
+  </nav>
+</aside>

@@ -1,0 +1,33 @@
+---
+import {
+  ArrowUp, Award, BookOpen, Brain, BriefcaseBusiness, Check, ChevronDown,
+  CircleUserRound, Code, Contact, Cpu, Database, ExternalLink, FileText, GitFork,
+  Globe, GraduationCap, HeartHandshake, List, Mail, MapPin, MessageCircle,
+  Menu, Monitor, Moon, Palette, PanelRightClose, Search, Shield, Sparkles,
+  Sun, Video, X,
+} from "@lucide/astro";
+
+interface Props {
+  name: string;
+  size?: number;
+  strokeWidth?: number;
+  class?: string;
+  ariaHidden?: boolean;
+}
+
+const { name, size = 18, strokeWidth = 1.8, class: className, ariaHidden = true } = Astro.props;
+const icons: Record<string, typeof Sparkles> = {
+  "arrow-up": ArrowUp, award: Award, book: BookOpen, brain: Brain,
+  briefcase: BriefcaseBusiness, check: Check, "chevron-down": ChevronDown,
+  user: CircleUserRound, code: Code, cpu: Cpu, database: Database,
+  external: ExternalLink, "file-text": FileText, github: GitFork, globe: Globe,
+  education: GraduationCap, handshake: HeartHandshake,
+  list: List, mail: Mail, location: MapPin, menu: Menu, monitor: Monitor,
+  moon: Moon, palette: Palette, "panel-close": PanelRightClose, search: Search,
+  shield: Shield, sparkles: Sparkles, sun: Sun, twitter: MessageCircle, video: Video,
+  linkedin: Contact, x: X,
+};
+const IconComponent = icons[name] ?? Sparkles;
+---
+
+<IconComponent size={size} stroke-width={strokeWidth} class={className} aria-hidden={ariaHidden ? "true" : undefined} />

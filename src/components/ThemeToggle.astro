@@ -1,0 +1,16 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<div class="theme-control">
+  <button class="icon-button theme-trigger" type="button" aria-label="Change color theme" aria-haspopup="menu" aria-expanded="false">
+    <span data-theme-icon="system"><Icon name="monitor" /></span>
+    <span data-theme-icon="light" hidden><Icon name="sun" /></span>
+    <span data-theme-icon="dark" hidden><Icon name="moon" /></span>
+  </button>
+  <div class="theme-menu" role="menu" aria-label="Color theme" hidden>
+    <button type="button" role="menuitemradio" data-set-theme="light"><Icon name="sun" /><span>Light</span><Icon name="check" size={15} class="theme-check" /></button>
+    <button type="button" role="menuitemradio" data-set-theme="dark"><Icon name="moon" /><span>Dark</span><Icon name="check" size={15} class="theme-check" /></button>
+    <button type="button" role="menuitemradio" data-set-theme="system"><Icon name="monitor" /><span>System</span><Icon name="check" size={15} class="theme-check" /></button>
+  </div>
+</div>

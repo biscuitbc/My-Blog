@@ -1,0 +1,18 @@
+---
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+}
+const { id, eyebrow, title, description } = Astro.props;
+---
+
+<header class="section-heading">
+  {eyebrow && <span class="section-kicker">{eyebrow}</span>}
+  <div class="section-title-row">
+    <h2>{title}</h2>
+    <a class="heading-anchor" href={`#${id}`} aria-label={`Link to ${title}`}>#</a>
+  </div>
+  {description && <p>{description}</p>}
+</header>

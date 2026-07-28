@@ -1,0 +1,18 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  file: string;
+  label: string;
+}
+
+const { file, label } = Astro.props;
+---
+
+<div class="empty-state" data-nosnippet aria-label={`${label}编辑提示`}>
+  <div class="empty-icon"><Icon name="code" size={20} /></div>
+  <div>
+    <p>{label}尚未填写</p>
+    <span>请编辑 <code>{file}</code></span>
+  </div>
+</div>

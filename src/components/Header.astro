@@ -1,0 +1,49 @@
+---
+import type { NavigationItem } from "../data/navigation";
+import Icon from "./Icon.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  items: NavigationItem[];
+}
+const { items } = Astro.props;
+---
+
+<header class="site-header" data-header>
+  <div class="header-inner">
+    <div class="header-balance" aria-hidden="true"></div>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {items.map((item) => <a href={item.href} data-nav-link>{item.label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button search-trigger" type="button" aria-label="Search this page"><Icon name="search" /></button>
+      <ThemeToggle />
+      <button class="icon-button menu-trigger" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="menu-open"><Icon name="menu" /></span>
+        <span class="menu-close" hidden><Icon name="x" /></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+    {items.map((item) => <a href={item.href} data-nav-link>{item.label}</a>)}
+  </nav>
+</header>
+
+<dialog class="search-dialog" aria-label="Page search">
+  <form method="dialog" class="search-panel">
+    <div class="search-input-wrap">
+      <Icon name="search" />
+      <input type="search" placeholder="Search sections…" aria-label="Search sections" autocomplete="off" />
+      <button class="dialog-close" value="close" aria-label="Close search"><Icon name="x" size={17} /></button>
+    </div>
+    <div class="search-results" aria-live="polite">
+      {items.map((item) => (
+        <a href={item.href} data-search-text={item.label.toLowerCase()}>
+          <span>{item.label}</span><small>{item.href}</small>
+        </a>
+      ))}
+      <p class="no-result" hidden>No matching sections.</p>
+    </div>
+    <p class="search-hint"><kbd>Esc</kbd> to close · Type to filter</p>
+  </form>
+</dialog>
