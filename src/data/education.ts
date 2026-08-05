@@ -27,7 +27,7 @@ export const education: EducationItem[] = [
         school: "School of Computer Science and Technology",
       },
       {
-        degree: "B.Sc. in Statistics",
+        degree: "B.Sc. in Mathematics and Applied Mathematics",
         school: "School of Mathematics Science",
       },
     ],

@@ -22,7 +22,14 @@ const [bioBeforeUniversity, bioAfterUniversity = ""] = profile.university
 const [bioBeforeMajor, bioAfterMajor = ""] = profile.major
   ? bioAfterUniversity.split(profile.major)
   : [bioAfterUniversity, ""];
-const [firstMajor, secondMajor = ""] = profile.major.split(" and ");
+const majorSeparator = " and ";
+const majorSeparatorIndex = profile.major.indexOf(majorSeparator);
+const firstMajor = majorSeparatorIndex >= 0
+  ? profile.major.slice(0, majorSeparatorIndex)
+  : profile.major;
+const secondMajor = majorSeparatorIndex >= 0
+  ? profile.major.slice(majorSeparatorIndex + majorSeparator.length)
+  : "";
 ---
 
 <BaseLayout>

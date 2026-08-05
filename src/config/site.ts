@@ -15,7 +15,7 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   title: "Pengju Jin",
-  description: "Personal homepage of Pengju Jin, an undergraduate studying Computer Science & Technology and Mathematics (Statistics) at Zhejiang University.",
+  description: "Personal homepage of Pengju Jin, an undergraduate studying Computer Science & Technology and Mathematics and Applied Mathematics at Zhejiang University.",
   author: "Pengju Jin",
   copyrightStartYear: "",
   currentYear: new Date().getFullYear(),
